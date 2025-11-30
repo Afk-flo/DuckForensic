@@ -1,4 +1,5 @@
 import hashlib
+import time
 
 import psutil
 import pwd
@@ -7,6 +8,15 @@ from rich.table import Table
 from rich.console import Console
 import datetime
 
+# Will be update soon - Files for User forensic
+FILES_TO_CHECK = [
+    ".bash_history",
+    ".zsh_history",
+    ".mysql_history",
+    ".viminfo",
+    ".lesshst",
+    ".ssh/authorized_keys",
+]
 
 def get_user():
     console = Console()
@@ -63,7 +73,7 @@ def history_management():
     table.add_column("Username", style="cyan", no_wrap=True)
     table.add_column("File", style="magenta")
     table.add_column("Hash", style="magenta")
-    table.add_column("Size", style="magenta")
+    table.add_column("Size (Bytes)", style="magenta")
     table.add_column("Last modified", style="green")
     table.add_column("Last accessed", style="yellow")
     table.add_column("Suspicious ?", style="red")
@@ -72,29 +82,37 @@ def history_management():
         username = user.name
         isSuspicious = False
 
-        # Is history ? - get hash
-        history_path = Path(f"/home/{username}/.bash_history")
+        for filename in FILES_TO_CHECK:
+            fpath = Path(f"/home/{username}/{filename}")
 
-        if not history_path.exists():
-            print(f"[-] Can't find {username} history![/]")
-        else:
+            if not fpath.exists():
+                continue
+                 # Fail silently
+
             # hash then metadata
-            hash = hashlib.sha256(history_path.read_bytes()).hexdigest()
+            file_hash = hashlib.sha256(fpath.read_bytes()).hexdigest()[:12]
+            stat = fpath.stat()
+            suspicious = []
 
-            if history_path.is_symlink():
-                isSuspicious = True
+            if stat.st_size == 0:
+                suspicious.append("Empty file")
 
-            # Stats metadata for History - is it clean?
-            stat = history_path.stat()
+            if time.time() - stat.st_mtime < 2000:
+                suspicious.append("Recently modified (<15 min)")
+
+            # weird permissions
+            perms = oct(stat.st_mode & 0o777)
+            if perms not in ["0o600", "0o644"]:
+                suspicious.append(f"Weird perms: {perms}")
 
             table.add_row(
                 username,
-                "bash_history",
-                hash,
+                filename,
+                file_hash,
                 str(stat.st_size),
                 str(datetime.datetime.fromtimestamp(stat.st_mtime)),
                 str(datetime.datetime.fromtimestamp(stat.st_atime)),
-                str(isSuspicious)
+                ", ".join(suspicious) if suspicious else "[green]OK[/green]"
             )
 
             console.print(table)
