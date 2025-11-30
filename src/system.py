@@ -28,6 +28,8 @@ def get_system():
     table.add_row("Memory Usage", str(psutil.virtual_memory().percent))
     table.add_row("Disk Usage", str(psutil.disk_usage('/')))
 
+    console.print(table)
+
     """
     uptime = None
     with open("/proc/uptime", "r") as f:
