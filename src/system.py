@@ -49,4 +49,4 @@ def get_system():
     partitions = psutil.disk_partitions(all=True)
 
     print("[+] Partitions: ")
-    demo.main()
+    #demo.main()

@@ -1,28 +1,48 @@
-import os
-
 import psutil
-from pathlib import Path
 import pwd
+from pathlib import Path
+from rich.table import Table
+from rich.console import Console
+
 
 def get_user():
-    """
-    Get user informations - list them and try to find malicious one
-    """
+    console = Console()
+
+    # Création du tableau
+    table = Table(title="Active Users Information", show_lines=True)
+
+    # Colonnes
+    table.add_column("Username", style="cyan", no_wrap=True)
+    table.add_column("UID", style="magenta")
+    table.add_column("GID", style="magenta")
+    table.add_column("Home Directory", style="green")
+    table.add_column("Shell", style="yellow")
+    table.add_column("Suspicious", style="red")
 
     users = psutil.users()
-    print("[*] Found {} users".format(len(users)))
+    console.print(f"[*] Found {len(users)} users\n", style="bold blue")
+
     for user in users:
         username = user.name
-        print("[+] Username: {}".format(username))
         userI = pwd.getpwnam(username)
-        print("--> UID: {}".format(userI.pw_uid))
-        print("--> GID: {}".format(userI.pw_gid))
-        print("--> DIR: {}".format(userI.pw_dir))
-        print("--> SHELL: {}".format(userI.pw_shell))
 
+        # Home exists ?
+        home_path = Path(userI.pw_dir)
+        suspicious = ""
 
-        # Check for /home except root
-        if not Path(f"/home/{username}").exists():
-            print("[!] User {} don't have a Home - Is this user legit? [!]".format(username))
+        if not home_path.exists():
+            suspicious = "[red bold]No home![/red bold]"
+        elif userI.pw_uid == 0 and username != "root":
+            suspicious = "[red bold]UID 0 (root disguised)[/red bold]"
 
+        # Ajouter au tableau
+        table.add_row(
+            username,
+            str(userI.pw_uid),
+            str(userI.pw_gid),
+            userI.pw_dir,
+            userI.pw_shell,
+            suspicious
+        )
 
+    console.print(table)
