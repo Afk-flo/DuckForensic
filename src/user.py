@@ -1,8 +1,11 @@
+import hashlib
+
 import psutil
 import pwd
 from pathlib import Path
 from rich.table import Table
 from rich.console import Console
+import datetime
 
 
 def get_user():
@@ -46,3 +49,39 @@ def get_user():
         )
 
     console.print(table)
+
+
+def history_management():
+    console = Console()
+
+    users = psutil.users()
+    for user in users:
+        username = user.name
+
+        # Is history ? - get hash
+        history_path = Path(f"/home/{username}/.bash_history")
+
+        if not history_path.exists():
+            print(f"[-] Can't find {username} history![/]")
+        else:
+            # hash then metadata
+            hash = hashlib.sha256(history_path.read_bytes()).hexdigest()
+            print(f"[+] {username} history found [+]")
+            print(f"[*] {username} history hash: {hash}[*] ")
+
+            if history_path.is_symlink():
+                print("[!] Symlink detected ! -> Is this file still legit ? [!]")
+                print("[!] Resolve : ", history_path.resolve())
+
+            # Stats metadata for History - is it clean?
+            stat = history_path.stat()
+            print(f"[*] Size : {stat.st_size} [*]")
+            print(f"[*] Last modified : ", datetime.datetime.fromtimestamp(stat.st_mtime) , " [*]")
+            print(f"[*] Last accessed : ", datetime.datetime.fromtimestamp(stat.st_atime) , " [*]")
+            print(f"[*] Date created : " , datetime.datetime.fromtimestamp(stat.st_ctime) , " [*]")
+
+
+
+
+
+

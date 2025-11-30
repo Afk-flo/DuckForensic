@@ -10,7 +10,7 @@ import os
 import platform
 
 from src.system import get_system
-from src.user import get_user
+from src.user import get_user, history_management
 
 banniere = """                                                                                                                    
                                                                                                                               
@@ -51,6 +51,7 @@ if __name__ == '__main__':
 
     print("[--] Collecting Users .. [--]")
     get_user()
+    history_management()
 
     """
     @TODO :

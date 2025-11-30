@@ -26,7 +26,6 @@ def format_uptime():
 
 
 def get_disk_bar(percent, length=20):
-    # Petite barre style ███-----
     filled = int(length * percent / 100)
     empty = length - filled
     bar = "█" * filled + "─" * empty
