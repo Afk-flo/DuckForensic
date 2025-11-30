@@ -3,6 +3,9 @@ System analysis - OTO
 """
 import platform
 import psutil
+import rich
+from diskinfo import demo
+
 
 def get_system():
     # System basics -
@@ -43,17 +46,4 @@ def get_system():
     partitions = psutil.disk_partitions(all=True)
 
     print("[+] Partitions: ")
-    for p in partitions:
-        print(f"--- Partitions : {p.device} ---")
-        print(f"Mount point : {p.mountpoint}")
-        print(f"Type : {p.fstype}")
-
-        try:
-            usage = psutil.disk_usage(p.mountpoint)
-            print(f"Size : {usage.total / (1024 ** 3):.2f} Go")
-            print(f"Used : {usage.used / (1024 ** 3):.2f} Go")
-            print(f"Free : {usage.free / (1024 ** 3):.2f} Go")
-        except PermissionError:
-            print("[!] Not enough permissions to access this partition .. [!]")
-
-        print()
+    demo.main()
