@@ -36,7 +36,7 @@ Version 0.1 by @Afk_flo
 if __name__ == '__main__':
     print(banniere)
 
-    if platform.system() != 'Windows':
+    if platform.system() != 'Linux':
         print('[!] This tool only works on Linux systems.')
         print("[!] Exiting...")
         exit(1)
