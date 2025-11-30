@@ -2,6 +2,8 @@
 System analysis - OTO
 """
 import platform
+from time import sleep
+
 import psutil
 import rich
 from diskinfo import demo
@@ -29,6 +31,7 @@ def get_system():
         meminfo.close()
     print("     " + lines[0].strip())
     print("     " + lines[1].strip())
+    sleep(3)
 
     # Uptime
     uptime = None

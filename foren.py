@@ -10,6 +10,7 @@ import os
 import platform
 
 from src.system import get_system
+from src.user import get_user
 
 banniere = """                                                                                                                    
                                                                                                                               
@@ -45,6 +46,8 @@ if __name__ == '__main__':
     print("[--] Collecting system configuration [--]")
     get_system()
 
+    print("[--] Collecting Users .. [--]")
+    get_user()
 
     """
     @TODO :
