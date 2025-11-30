@@ -8,11 +8,13 @@ Version: 0.1
 
 import os
 import platform
+from rich.console import Console
 
 from src.system import get_system
 from src.user import get_user, history_management
+console = Console()
 
-banniere = """                                                                                                                    
+banniere = r"""                                                                                                                    
                                                                                                                               
     ,---,                                  ,-.     ,---,.                                                                     
   .'  .' `\                            ,--/ /|   ,'  .' |                                                   ,--,              
@@ -35,7 +37,7 @@ Version 0.1 by @Afk_flo
 #### Main
 
 if __name__ == '__main__':
-    print(banniere)
+    console.print(f"[bold red]{banniere}[/bold red]")
 
     if platform.system() != 'Linux':
         print('[!] This tool only works on Linux systems.')
