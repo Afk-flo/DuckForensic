@@ -12,6 +12,8 @@ from rich.console import Console
 
 from src.system import get_system
 from src.user import get_user, history_management
+from rich.text import Text
+
 console = Console()
 
 banniere = r"""                                                                                                                    
@@ -30,8 +32,11 @@ Version 0.1 by @Afk_flo
 #### Main
 
 if __name__ == '__main__':
-    console.print(f"[bold blue]{banniere}[/bold blue]")
+    text = Text(banniere)
+    text.stylize("bold blue", 0, len(banniere) // 2)
+    text.stylize("bold magenta", len(banniere) // 2)
 
+    console.print(text)
     if platform.system() != 'Linux':
         print('[!] This tool only works on Linux systems.')
         print("[!] Exiting...")
