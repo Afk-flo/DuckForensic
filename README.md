@@ -1,4 +1,4 @@
-# 🚀 DuckForensic 
+# DuckForensic 
 A simple and fast Linux forensic tool
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/afk-flo/duckforensic)
