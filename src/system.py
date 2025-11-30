@@ -5,35 +5,30 @@ import platform
 from time import sleep
 
 import psutil
-import rich
 from diskinfo import demo
-
+from rich.table import Table
+from rich.console import Console
 
 def get_system():
-    # System basics -
-    # Architecture
-    print("[+] Architecture: " + platform.architecture()[0])
+    console = Console()
 
-    # Machine
-    print("[+] Machine: " + platform.machine())
+    table = Table(title="System Information", show_lines=True)
 
-    # Node
-    print("[+] Node: " + platform.node())
+    # Colonnes
+    table.add_column("System", style="cyan", no_wrap=True)
+    table.add_column("Data", style="magenta")
+    table.add_column("Data", style="red")
 
-    # Distribution
-    print("[+] Distribution: " + platform.system())
+    table.add_row("Architecture", platform.architecture()[0])
+    table.add_row("Machine", platform.machine())
+    table.add_row("Operating System", platform.system())
+    table.add_row("Processor", platform.processor())
+    table.add_row("Uptime", str(psutil.boot_time()))
+    table.add_row("CPU Usage", str(psutil.cpu_percent()))
+    table.add_row("Memory Usage", str(psutil.virtual_memory().percent))
+    table.add_row("Disk Usage", str(psutil.disk_usage('/')))
 
-    # Current configuration (df, free)
-    # Memory info - First with proc/meminfo - Next
-    print("[+] Memory info : ")
-    with open("/proc/meminfo", "r") as meminfo:
-        lines = meminfo.readlines()
-        meminfo.close()
-    print("     " + lines[0].strip())
-    print("     " + lines[1].strip())
-    sleep(3)
-
-    # Uptime
+    """
     uptime = None
     with open("/proc/uptime", "r") as f:
         uptime = f.readline().split(" ")[0].strip()
@@ -45,8 +40,5 @@ def get_system():
 
     if uptime_hours < 3:
         print("[!] Server has been started recently .. [!]")
+    """
 
-    partitions = psutil.disk_partitions(all=True)
-
-    print("[+] Partitions: ")
-    #demo.main()

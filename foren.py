@@ -46,6 +46,9 @@ if __name__ == '__main__':
     print("[--] Collecting system configuration [--]")
     get_system()
 
+    print(" ")
+    print(" ")
+
     print("[--] Collecting Users .. [--]")
     get_user()
 
