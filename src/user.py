@@ -22,6 +22,8 @@ FILES_TO_CHECK = [
     ".ssh/known_hosts",
     ".bashrc",
     ".profile",
+    ".bash_profile",
+    ".bash_logout",
 ]
 
 
