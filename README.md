@@ -20,7 +20,7 @@ What's for ?
 
 **(todo)**
 - Extended scan for server files
-- Scan for suspicious processes
+- Scan for suspicious process
 - Extraction and checkSum all the way
 - Deep scanning
 
