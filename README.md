@@ -10,7 +10,7 @@ What's for ?
 > This script is designed to give you a quick and effective overview of your system after a potential compromise. It analyzes various folders, users, and processes in search of suspicious elements.
 ---
 
-## 🧩 Features
+## Features
 
 **(currently - V 0.1)**
 
@@ -26,7 +26,7 @@ What's for ?
 
 ---
 
-## 📦 Installation
+## Installation
 
 Clone this repo & follow this *simple* instructions :
 ```bash
