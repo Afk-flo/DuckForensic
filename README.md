@@ -7,7 +7,7 @@ A simple and fast Linux forensic tool
 ![Banner](img/img.png)
 
 What's for ?
-> This script is designed to give you a quick and effective overview of your system after a potential compromise. It analyzes various folders, users, and processes in search of suspicious elements.
+> This script is designed to give you a quick and effective overview of your system after a potential compromise. It analyzes various folders, users, and processes in search of suspicious elements. It’s basicaly, a triage tool.
 ---
 
 ## Features
