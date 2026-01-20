@@ -24,7 +24,7 @@ What's for ?
 - Extraction and checkSum all the way
 - Deep scanning
 
----
+----
 
 ## Installation
 
